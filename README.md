@@ -1,7 +1,7 @@
 # triona-mastermind
 
 
-## Oppgave Tekst
+## Oppgavetekst
 __Generelt:__
 - [ ] Systemet skal la brukeren spille Master Mind.
 - [ ] Koden som skal gjettes består av fire tegn bestående av A, B, C, D, E eller F.
