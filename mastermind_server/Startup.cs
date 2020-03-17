@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,26 +27,50 @@ namespace mastermind_server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddMemoryCache();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("_MyAllowSpecificOrigins", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                    builder.WithHeaders("Content-Type");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMemoryCache cache)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors("_MyAllowSpecificOrigins");
+
+            cache.Set("mastermindCode", GetCode());
+            cache.Set("prevGuesses", new List<Guess>());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private string GetCode()
+        {
+            var random = new Random();
+            var possible = "ABCDEF";
+            var code = "";
+            for (var i = 0; i < 4; i++)
+            {
+                code += possible[random.Next(0, 5)];
+            }
+            return code;
         }
     }
 }
