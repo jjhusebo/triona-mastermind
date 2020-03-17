@@ -1,5 +1,5 @@
 <div>
-  <label for="guessbox"></label>
-  <input #guessBox name="guessbox" type="text" />
-  <button (click)="submitGuess(guessBox.value)">Submit guess</button>
+  <app-guess-list (winner)="handleWin($event)"></app-guess-list>
+  <app-code-input *ngIf="showInput"></app-code-input>
+  <div class="container" *ngIf="!showInput">{{ correctCode }} is correct!</div>
 </div>

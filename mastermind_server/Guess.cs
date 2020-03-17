@@ -7,6 +7,8 @@ namespace mastermind_server
 {
     public class Guess
     {
-        public string GuessString { get; set; }        
+        public string GuessString { get; set; }
+        public int Whites { get; set; }
+        public int Blacks { get; set; }
     }
 }

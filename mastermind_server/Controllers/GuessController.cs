@@ -37,20 +37,19 @@ namespace mastermind_server.Controllers
 
         // POST: api/Guess
         [HttpPost]
-        public ActionResult<GuessResult> Post([FromBody] Guess guess)
+        public ActionResult<List<Guess>> Post([FromBody] Guess guess)
         {
             var cachedGuesses = _cache.Get<List<Guess>>("prevGuesses");
-            cachedGuesses.Add(guess);
-
-            var newGuesses = _cache.Set("prevGuesses", cachedGuesses);
             var result = CheckGuess(guess);
-            result.Guesses = newGuesses;
-            return result;
+            result.GuessString = guess.GuessString;
+            cachedGuesses.Add(result);
+
+            return _cache.Set("prevGuesses", cachedGuesses); ;
         }
 
-        private GuessResult CheckGuess(Guess guess)
+        private Guess CheckGuess(Guess guess)
         {
-            GuessResult result = new GuessResult();
+            Guess result = new Guess();
             var possibleChars = "ABCDEF";
             var code = _cache.Get<string>("mastermindCode");
             var blackAndWhiteCount = 0;
@@ -73,8 +72,8 @@ namespace mastermind_server.Controllers
 
             var whiteCount = blackAndWhiteCount - blackCount;
 
-            result.whites = whiteCount;
-            result.blacks = blackCount;
+            result.Whites = whiteCount;
+            result.Blacks = blackCount;
             return result;
         }
     }

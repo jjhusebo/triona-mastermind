@@ -1,0 +1,29 @@
+#table-container {
+  overflow-y: auto;
+  height: fit-content;
+  max-height: 15rem;
+}
+#table-container thead th {
+  position: sticky;
+  top: 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  padding: 8px 16px;
+}
+th {
+  background: #eee;
+}
+
+#table-container,
+#table-container td {
+  box-shadow: inset 1px -1px #000;
+}
+#table-container th {
+  box-shadow: inset 1px 1px #000, 0 1px #000;
+}

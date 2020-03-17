@@ -1,0 +1,33 @@
+<div class="container">
+  <div id="table-container">
+    <table>
+      <thead>
+        <th>Guess</th>
+        <th>Exists</th>
+        <th>Corr. Pos</th>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let guess of results$ | async">
+          <tr>
+            <td>
+              {{ guess.guessString }}
+            </td>
+            <td>
+              {{ guess.whites }}
+            </td>
+            <td>
+              {{ guess.blacks }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+<ng-container *ngIf="results$ | async as results">
+  <div class="container" *ngIf="results.length > 0">
+    Last guess: {{ results[results.length - 1].guessString }} -
+    {{ results[results.length - 1].whites }} -
+    {{ results[results.length - 1].blacks }}
+  </div>
+</ng-container>

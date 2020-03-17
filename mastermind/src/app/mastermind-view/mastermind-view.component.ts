@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { MastermindViewHttpService } from './_services/mastermind-view-http.service';
 
 @Component({
   selector: 'app-mastermind-view',
@@ -8,11 +6,14 @@ import { MastermindViewHttpService } from './_services/mastermind-view-http.serv
   styleUrls: [ './mastermind-view.component.css' ]
 })
 export class MastermindViewComponent implements OnInit {
-  constructor(private http: MastermindViewHttpService) {}
+  showInput = true;
+  correctCode: string;
+  constructor() {}
 
   ngOnInit(): void {}
 
-  submitGuess(val: string) {
-    this.http.guess(val);
+  handleWin(event: any) {
+    this.correctCode = event.correctCode;
+    this.showInput = false;
   }
 }
